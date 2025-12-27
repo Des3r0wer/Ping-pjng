@@ -1,0 +1,57 @@
+from pygame import *
+from time import time as timer
+from random import randint
+init()
+
+window = display.set_mode((700, 500))
+window.fill((200, 255, 255))
+display.set_caption('Space shooter')
+clock = time.Clock()
+
+class GameSprite(sprite.Sprite):
+    def __init__(self, player_image, x, y, size_x, size_y, speed):
+        super().__init__()
+        self.image = transform.scale(image.load(player_image), (size_x, size_y))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.speed = speed
+    def reset(self):
+        window.blit(self.image, (self.rect.x, self.rect.y))
+
+class player(GameSprite):
+    def update(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 5:
+            self.rect.y -= self.speed 
+        if keys[K_s] and self.rect.y < 400:
+            self.rect.y += self.speed
+    def update2(self):
+        keys = key.get_pressed()
+        if keys[K_a] and self.rect.y > 5:
+            self.rect.y -= self.speed 
+        if keys[K_d] and self.rect.y < 400:
+            self.rect.y += self.speed
+
+platform = player('racket.png', 5, 200, 30, 100, 3)
+platform2 = player('racket.png', 665, 250, 30, 100, 3)
+ball = GameSprite('tenis_ball.png', 350, 250, 35, 35, 3)
+
+game = True
+finish = False
+
+while game:
+    for i in event.get():
+        if i.type == QUIT:
+            game = False
+    if finish != True:
+        window.fill((200, 255, 255))
+        platform.update()
+        platform2.update2()
+        platform.reset()
+        platform2.reset()
+        ball.reset()
+    display.update()
+    clock.tick(60)
+
+    
