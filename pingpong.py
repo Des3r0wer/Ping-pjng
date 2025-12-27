@@ -33,12 +33,14 @@ class player(GameSprite):
         if keys[K_d] and self.rect.y < 400:
             self.rect.y += self.speed
 
-platform = player('racket.png', 5, 200, 30, 100, 3)
-platform2 = player('racket.png', 665, 250, 30, 100, 3)
+platform = player('racket.png', 5, 200, 30, 100, 5)
+platform2 = player('racket.png', 665, 250, 30, 100, 5)
 ball = GameSprite('tenis_ball.png', 350, 250, 35, 35, 3)
 
 game = True
 finish = False
+x = 5
+y = 5
 
 while game:
     for i in event.get():
@@ -46,6 +48,12 @@ while game:
             game = False
     if finish != True:
         window.fill((200, 255, 255))
+        ball.rect.x += x
+        ball.rect.y += y
+        if ball.rect.y >= 475 or ball.rect.y <= 25:
+            y *= -1
+        if sprite.collide_rect(platform, ball) or sprite.collide_rect(platform2, ball):
+            x *= -1
         platform.update()
         platform2.update2()
         platform.reset()
