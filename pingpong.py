@@ -41,6 +41,9 @@ game = True
 finish = False
 x = 5
 y = 5
+font = font.Font(None, 70)
+win1 = font.render('Player 1 win!', True, (0, 200, 0))
+win2 = font.render('Player 2 win!', True, (0, 200, 0))
 
 while game:
     for i in event.get():
@@ -54,6 +57,10 @@ while game:
             y *= -1
         if sprite.collide_rect(platform, ball) or sprite.collide_rect(platform2, ball):
             x *= -1
+        if ball.rect.x > 690:
+            window.blit(win1, (200, 220))
+        if ball.rect.x < 10:
+            window.blit(win2, (200, 220))
         platform.update()
         platform2.update2()
         platform.reset()
